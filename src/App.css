@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #703232;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  gap: 1px;
+  background-color: #000;
+}
+
+.grid-container > div {
+  background-color: #fff;
+  border: 1px solid #6e5b1a;
+  border-radius: 50px
+}
+
+.movable-square {
+  background-color: hsl(0, 71%, 51%);
+}
