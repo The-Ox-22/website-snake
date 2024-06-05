@@ -3,35 +3,42 @@ import { useState, useEffect } from 'react'
 // import viteLogo from '/vite.svg'
 import './App.css'
 
+
 function App() {
-  const gridSize = 10;
   const [position, setPosition] = useState({ row: 1, column: 1 });
 
   useEffect(() => {
-      const handleKeyDown = (event) => {
-          setPosition((prevPosition) => {
-              let newRow = prevPosition.row;
-              let newColumn = prevPosition.column;
-
-              switch (event.key) {
-                  case 'ArrowUp':
-                      if (newRow > 1) newRow--;
-                      break;
-                  case 'ArrowDown':
-                      if (newRow < gridSize) newRow++;
-                      break;
-                  case 'ArrowLeft':
-                      if (newColumn > 1) newColumn--;
-                      break;
-                  case 'ArrowRight':
-                      if (newColumn < gridSize) newColumn++;
-                      break;
-                  default:
-                      break;
-              }
-
-              return { row: newRow, column: newColumn };
+      fetch('/position')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network Response was not OK');
+            }
+            // console.log("initial response:", response)
+            return response.json();
+          })
+          .then(data => {
+            // console.log('Position fetched:', data);
+            setPosition(data);
+          })
+          .catch(error => {
+            console.log('There was a problem with the fetch operation:', error)
           });
+
+      const handleKeyDown = async (event) => {
+          const direction = event.key;
+          // console.log('Key pressed:', direction);
+          const response = await fetch('/move', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ direction }),
+          });
+          if (!response.ok) {
+            console.error('Network response was not ok');
+            return;
+          }
+          const data = await response.json();
+          // console.log('Position updated:', data);
+          setPosition(data);
       };
 
       window.addEventListener('keydown', handleKeyDown);
@@ -47,11 +54,12 @@ function App() {
               className="movable-square"
               style={{
                   gridColumn: position.column,
-                  gridRow: position.row,
+                  gridRow: position.row
               }}
           ></div>
       </div>
   );
 }
+
 
 export default App
