@@ -1,63 +1,55 @@
-import { useState, useEffect } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
 
 
 function App() {
   const [position, setPosition] = useState({ row: 1, column: 1 });
 
   useEffect(() => {
-      fetch('/position')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network Response was not OK');
-            }
-            // console.log("initial response:", response)
-            return response.json();
-          })
-          .then(data => {
-            // console.log('Position fetched:', data);
-            setPosition(data);
-          })
-          .catch(error => {
-            console.log('There was a problem with the fetch operation:', error)
-          });
+      const fetchPosition = async () => {
+          try {
+              const response = await axios.get('http://127.0.0.1:8080/position');
+              setPosition(response.data);
+          } catch (error) {
+              console.error('Error fetching position:', error);
+          }
+      };
 
+      fetchPosition();
+  }, []);
+
+  useEffect(() => {
       const handleKeyDown = async (event) => {
           const direction = event.key;
-          // console.log('Key pressed:', direction);
-          const response = await fetch('/move', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ direction }),
-          });
-          if (!response.ok) {
-            console.error('Network response was not ok');
-            return;
+          if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(direction)) {
+              try {
+                  const response = await axios.post('http://127.0.0.1:8080/move', { direction });
+                  setPosition(response.data);
+              } catch (error) {
+                  console.error('Error updating position:', error);
+              }
           }
-          const data = await response.json();
-          // console.log('Position updated:', data);
-          setPosition(data);
       };
 
       window.addEventListener('keydown', handleKeyDown);
-
       return () => {
           window.removeEventListener('keydown', handleKeyDown);
       };
   }, []);
 
   return (
-      <div className="grid-container">
-          <div
-              className="movable-square"
-              style={{
-                  gridColumn: position.column,
-                  gridRow: position.row
-              }}
-          ></div>
-      </div>
+        <div className="grid-container">
+            <div
+                className="movable-square"
+                style={{
+                    gridRowStart: position.row,
+                    gridColumnStart: position.column,
+                }}
+            />
+        </div>
   );
 }
 
