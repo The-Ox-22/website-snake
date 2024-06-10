@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.site-title {
+    font-size: 2rem;
+}
+
+.nav {
+    background-color: hsla(0, 0%, 0%, 0.808);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem
+}
+
+.nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+
+}
+
+.nav a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav li.active {
+    background-color: hsla(51, 30%, 8%, 0.938);
+}
+
+.nav a:hover {
+    background-color: hsla(51, 30%, 8%, 0.938);
+    color: hsla(0, 0%, 98%, 0.85)
+}

@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import NavBar from './NavBar.jsx'
 import App from './App.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <h1>Welcome To Slither</h1>
-    <p>Use the Arrow Keys to move the box!</p>
-    <App />
+      <NavBar />
+      <App />
   </React.StrictMode>,
 )

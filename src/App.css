@@ -1,19 +1,20 @@
-body {
+body { /* this makes the slither game look much better, but commenting out to work on nav bar... 
   display: flex;
   justify-content: center;
   text-align: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #703232;
-}
+  background-color: #703232;*/
+} 
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(10, 50px);
   grid-template-rows: repeat(10, 50px);
-  gap: 1px;
+  gap: 10px;
   background-color: #000;
+  
 }
 
 .grid-container > div {
@@ -24,4 +25,5 @@ body {
 
 .movable-square {
   background-color: hsl(0, 71%, 51%);
+  border: 20px solid blue
 }

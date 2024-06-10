@@ -41,15 +41,19 @@ function App() {
   }, []);
 
   return (
-        <div className="grid-container">
-            <div
-                className="movable-square"
-                style={{
-                    gridRowStart: position.row,
-                    gridColumnStart: position.column,
-                }}
-            />
-        </div>
+    <div> 
+      <h1>Welcome To Slither</h1>
+      <p>Use the Arrow Keys to move the box!</p>
+      <div className="grid-container">
+          <div
+              className="movable-square"
+              style={{
+                  gridRowStart: position.row,
+                  gridColumnStart: position.column,
+              }}
+          />
+      </div>
+    </div>
   );
 }
 
