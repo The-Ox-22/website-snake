@@ -3,59 +3,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import NavBar from './NavBar.jsx'
+import About from './pages/About.jsx'
+import Home from './pages/Home.jsx'
+import Playground from './pages/Playground.jsx'
 
 
-function App() {
-  const [position, setPosition] = useState({ row: 1, column: 1 });
-
-  useEffect(() => {
-      const fetchPosition = async () => {
-          try {
-              const response = await axios.get('http://127.0.0.1:8080/position');
-              setPosition(response.data);
-          } catch (error) {
-              console.error('Error fetching position:', error);
-          }
-      };
-
-      fetchPosition();
-  }, []);
-
-  useEffect(() => {
-      const handleKeyDown = async (event) => {
-          const direction = event.key;
-          if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(direction)) {
-              try {
-                  const response = await axios.post('http://127.0.0.1:8080/move', { direction });
-                  setPosition(response.data);
-              } catch (error) {
-                  console.error('Error updating position:', error);
-              }
-          }
-      };
-
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-          window.removeEventListener('keydown', handleKeyDown);
-      };
-  }, []);
-
-  return (
-    <div> 
-      <h1>Welcome To Slither</h1>
-      <p>Use the Arrow Keys to move the box!</p>
-      <div className="grid-container">
-          <div
-              className="movable-square"
-              style={{
-                  gridRowStart: position.row,
-                  gridColumnStart: position.column,
-              }}
-          />
+export default function App() {
+  let component;
+  switch (window.location.pathname) {
+    case "/":
+      component = <Home />;
+      break
+    case "/about":
+      component = <About />;
+      break
+    case "/playground":
+      component = <Playground />;
+      break
+  }
+  console.log(window.location)
+  return(
+    <>
+      <NavBar />
+      <div className="container">
+        {component}
       </div>
-    </div>
-  );
+    </>
+  )
+  
 }
 
-
-export default App
